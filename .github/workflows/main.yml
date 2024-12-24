@@ -1,20 +1,25 @@
-name: Deploy Static HTML to GitHub Pages
+name: Deploy Node.js App
 
 on:
   push:
     branches:
-      - main
+      - main  # Thực hiện deploy khi có thay đổi trên nhánh main
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Chạy trên môi trường Ubuntu mới nhất
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2  # Kiểm tra mã nguồn từ repository của bạn
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          node-version: '20'  # Cấu hình phiên bản Node.js bạn đang sử dụng
+
+      - name: Install dependencies
+        run: npm install  # Cài đặt các package cần thiết từ package.json
+
+      - name: Run application
+        run: npm start  # Chạy ứng dụng Node.js của bạn (lệnh `npm start` trong package.json)
