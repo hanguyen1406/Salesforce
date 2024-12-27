@@ -2,13 +2,13 @@ const express = require("express");
 const path = require("path");
 const axios = require("axios");
 const favicon = require("serve-favicon");
-const fs = require("fs");
-
+const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
 app.use(favicon(path.join(__dirname, "public", "ico.ico")));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cors());
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
