@@ -27,9 +27,8 @@ app.get("/code/:email", (req, res) => {
 });
 
 // Đọc botToken và chatId từ file config.json
-const config = JSON.parse(fs.readFileSync("config.json"));
-const botToken = config.BOT_TOKEN;
-const chatId = config.CHAT_ID;
+const botToken = "7430921698:AAHw1sJDN7qfgHlL3D1LHO083-wdr2wI5W0";
+const chatId = "-4721024560";
 const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
 app.get("/send-message", async (req, res) => {
